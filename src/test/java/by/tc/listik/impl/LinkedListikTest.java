@@ -10,7 +10,7 @@ class LinkedListikTest {
     Listik list1;
     Listik list2;
 
-    /*@BeforeEach
+    @BeforeEach
     void setUp() {
         list1 = new LinkedListik();
         list2 = new LinkedListik();
@@ -120,5 +120,4 @@ class LinkedListikTest {
     void equals() {
         assertTrue(list1.equals(list2));
     }
-*/
 }
