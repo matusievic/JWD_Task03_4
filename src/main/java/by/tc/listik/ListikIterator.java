@@ -1,4 +1,4 @@
-package by.tc.listik.impl;
+package by.tc.listik;
 
 public interface ListikIterator {
     boolean hasNext();

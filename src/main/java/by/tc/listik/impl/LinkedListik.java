@@ -1,6 +1,7 @@
 package by.tc.listik.impl;
 
 import by.tc.listik.Listik;
+import by.tc.listik.ListikIterator;
 
 public class LinkedListik extends AbstractListik {
     private static final long serialVersionUID = -3155702771677544806L;
@@ -141,7 +142,7 @@ public class LinkedListik extends AbstractListik {
     }
 
 
-    public class LinkedListikIterator implements ListikIterator {
+    private class LinkedListikIterator implements ListikIterator {
         private Element head;
         private Element current;
 

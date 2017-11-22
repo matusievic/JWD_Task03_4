@@ -1,6 +1,7 @@
 package by.tc.listik.impl;
 
 import by.tc.listik.Listik;
+import by.tc.listik.ListikIterator;
 
 public class ArrayListik extends AbstractListik {
     private static final long serialVersionUID = -33460992926824480L;
@@ -66,7 +67,7 @@ public class ArrayListik extends AbstractListik {
 
     @Override
     public ListikIterator iterator() {
-        return new ArrayListikIterator(data);
+        return new ArrayListikIterator(this);
     }
 
     @Override
@@ -84,23 +85,23 @@ public class ArrayListik extends AbstractListik {
     }
 
 
-    public static class ArrayListikIterator implements ListikIterator {
+    private static class ArrayListikIterator implements ListikIterator {
         private int currentElement = 0;
-        private Object[] data;
+        private ArrayListik list;
 
-        public ArrayListikIterator(Object[] data) {
-            this.data = data;
+        public ArrayListikIterator(ArrayListik ls) {
+            this.list = ls;
         }
 
         @Override
         public boolean hasNext() {
-            return data.length - 1 > currentElement;
+            return list.length - 1 > currentElement;
         }
 
         @Override
         public Object next() {
             if (!hasNext()) { return Listik.NOTHING; }
-            return data[++currentElement];
+            return list.data[currentElement++];
         }
 
         @Override
@@ -111,7 +112,7 @@ public class ArrayListik extends AbstractListik {
         @Override
         public Object prev() {
             if (!hasPrev()) { return Listik.NOTHING; }
-            return data[--currentElement];
+            return list.data[--currentElement];
         }
     }
 }

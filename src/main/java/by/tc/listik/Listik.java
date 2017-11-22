@@ -1,7 +1,5 @@
 package by.tc.listik;
 
-import by.tc.listik.impl.ListikIterator;
-
 public interface Listik {
     Object get();
     Object get(int index);

@@ -1,23 +1,23 @@
-package by.tc.listik.impl.iterator.impl;
+package by.tc.listik.impl;
 
-import by.tc.listik.impl.ListikIterator;
 import by.tc.listik.Listik;
+import by.tc.listik.ListikIterator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ArrayListikIteratorTest {
-    /*ListikIterator iterator;
+    ListikIterator iterator;
     final int dataLength = 5;
 
     @BeforeEach
     void setUp() {
-        Object[] data = new Object[dataLength];
+        Listik listik = new ArrayListik();
         for (int i = 0; i < dataLength; i++) {
-            data[i] = i;
+            listik.add(i);
         }
-        iterator = new ArrayListikIterator(data);
+        iterator = listik.iterator();
     }
 
     @Test
@@ -43,7 +43,7 @@ class ArrayListikIteratorTest {
 
     @Test
     void next() {
-        int expected = 1;
+        int expected = 0;
         int actual = (int) iterator.next();
 
         for (int i = 1; i < dataLength; i++) {
@@ -87,5 +87,5 @@ class ArrayListikIteratorTest {
         assertAll(() -> assertEquals(expected, actual),
                 () -> assertEquals(expectedNothing, actualNothing));
     }
-*/
+
 }
