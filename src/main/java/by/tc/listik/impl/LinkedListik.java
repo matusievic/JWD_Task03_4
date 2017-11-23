@@ -171,7 +171,7 @@ public class LinkedListik extends AbstractListik {
         public Object prev() {
             if (!hasPrev()) { return Listik.NOTHING; }
             current = current.prev;
-            return current.prev;
+            return current.val;
         }
     }
 }
