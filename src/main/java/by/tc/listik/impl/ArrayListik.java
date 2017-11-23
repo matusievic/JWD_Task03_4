@@ -3,15 +3,24 @@ package by.tc.listik.impl;
 import by.tc.listik.Listik;
 import by.tc.listik.ListikIterator;
 
+/**
+ * This is an array implementation of Listik class
+ */
 public class ArrayListik extends AbstractListik {
     private static final long serialVersionUID = -33460992926824480L;
-    private Object[] data;
-    private int length;
     private int capacity = 10;
+    private Object[] data = new Object[capacity];
+    private int length;
 
-    public ArrayListik() {
-        data = new Object[capacity];
+    public ArrayListik(Object... values) {
+        if (values.length > capacity) {
+            data = new Object[values.length + capacity];
+        }
+        for (Object val : values) {
+            add(val);
+        }
     }
+
 
     private boolean isEnoughSpace() {
         if (length < data.length) {
@@ -39,7 +48,7 @@ public class ArrayListik extends AbstractListik {
         }
         if (index == length) {
             data[index] = val;
-        } else if (index < length && index >= 0){
+        } else if (index < length && index >= 0) {
             System.arraycopy(data, index, data, index + 1, length - index);
             data[index] = val;
         } else { return NOTHING; }
@@ -95,7 +104,7 @@ public class ArrayListik extends AbstractListik {
 
         @Override
         public boolean hasNext() {
-            return list.length - 1 > currentElement;
+            return list.length > currentElement;
         }
 
         @Override

@@ -3,6 +3,9 @@ package by.tc.listik.impl;
 import by.tc.listik.Listik;
 import by.tc.listik.ListikIterator;
 
+/**
+ * This is a list implementation of Listik class
+ */
 public class LinkedListik extends AbstractListik {
     private static final long serialVersionUID = -3155702771677544806L;
 
@@ -19,6 +22,12 @@ public class LinkedListik extends AbstractListik {
             this.val = val;
             this.next = next;
             this.prev = prev;
+        }
+    }
+
+    public LinkedListik(Object... values) {
+        for(Object val : values) {
+            add(val);
         }
     }
 
