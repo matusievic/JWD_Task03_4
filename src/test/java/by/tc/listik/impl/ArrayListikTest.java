@@ -62,7 +62,7 @@ class ArrayListikTest {
 
     @Test
     void equals() {
-        assertTrue(list1.equals(list2));
+        assertEquals(list1, list2);
     }
 
     @Test

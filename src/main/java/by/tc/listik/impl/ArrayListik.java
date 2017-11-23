@@ -93,6 +93,12 @@ public class ArrayListik extends AbstractListik {
         return true;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) { return true; }
+        if (obj == null || getClass() != obj.getClass()) { return false; }
+        return equals((Listik) obj);
+    }
 
     private static class ArrayListikIterator implements ListikIterator {
         private int currentElement = 0;

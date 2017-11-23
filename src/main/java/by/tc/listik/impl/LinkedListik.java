@@ -150,6 +150,13 @@ public class LinkedListik extends AbstractListik {
         return true;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) { return true; }
+        if (obj == null || getClass() != obj.getClass()) { return false; }
+        return equals((Listik) obj);
+    }
+
 
     private class LinkedListikIterator implements ListikIterator {
         private Element head;

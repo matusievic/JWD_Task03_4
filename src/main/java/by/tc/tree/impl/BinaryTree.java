@@ -1,5 +1,7 @@
 package by.tc.tree.impl;
 
+import by.tc.listik.Listik;
+import by.tc.listik.impl.ArrayListik;
 import by.tc.tree.Tree;
 
 import java.io.Serializable;
@@ -21,6 +23,8 @@ public class BinaryTree implements Tree, Serializable {
         if (val == null) { return; }
         if (root == null) {
             root = new Node(val, null);
+            length++;
+            return;
         }
         add(root, val);
         length++;
@@ -37,7 +41,7 @@ public class BinaryTree implements Tree, Serializable {
             if (node.right == null) {
                 node.right = new Node(val, node);
             } else {
-                add(node.right, null);
+                add(node.right, val);
             }
         }
     }
@@ -56,43 +60,43 @@ public class BinaryTree implements Tree, Serializable {
         }
 
 
-        public void bypassPreOrder(Comparable[] array, int index) {
-            array[index++] = val;
-            if (left != null) left.bypassPreOrder(array, index);
-            if (right != null) right.bypassPreOrder(array, index);
+        public void bypassPreOrder(Listik result) {
+            result.add(val);
+            if (left != null) left.bypassPreOrder(result);
+            if (right != null) right.bypassPreOrder(result);
         }
 
-        void bypassInOrder(Comparable[] array, int index) {
-            if (left != null) left.bypassInOrder(array, index);
-            array[index++] = val;
-            if (right != null) right.bypassInOrder(array, index);
+        void bypassInOrder(Listik result) {
+            if (left != null) left.bypassInOrder(result);
+            result.add(val);
+            if (right != null) right.bypassInOrder(result);
         }
 
-        void bypassPostOrder(Comparable[] array, int index) {
-            if (left != null) left.bypassPostOrder(array, index);
-            if (right != null) right.bypassPostOrder(array, index);
+        void bypassPostOrder(Listik result) {
+            if (left != null) left.bypassPostOrder(result);
+            if (right != null) right.bypassPostOrder(result);
             ;
-            array[index++] = val;
+            result.add(val);
         }
 
     }
 
 
-    public Comparable[] bypassPreOrder() {
-        Comparable[] result = new Comparable[length];
-        root.bypassPreOrder(result, 0);
+    public Listik bypassPreOrder() {
+        Listik result = new ArrayListik();
+        root.bypassPreOrder(result);
         return result;
     }
 
-    public Comparable[] bypassInOrder() {
-        Comparable[] result = new Comparable[length];
-        root.bypassPreOrder(result, 0);
+    public Listik bypassInOrder() {
+        Listik result = new ArrayListik();
+        root.bypassInOrder(result);
         return result;
     }
 
-    public Comparable[] bypassPostOrder() {
-        Comparable[] result = new Comparable[length];
-        root.bypassPreOrder(result, 0);
+    public Listik bypassPostOrder() {
+        Listik result = new ArrayListik();
+        root.bypassPostOrder(result);
         return result;
     }
 
