@@ -1,23 +1,23 @@
-package by.tc.listik.impl;
+package by.tc.custom.list.impl;
 
-import by.tc.listik.Listik;
-import by.tc.listik.ListikIterator;
+import by.tc.custom.list.CustomList;
+import by.tc.custom.list.CustomListIterator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class LinkedListikIteratorTest {
-    ListikIterator iterator;
+class LinkedCustomListIteratorTest {
+    CustomListIterator iterator;
     final int dataLength = 5;
 
     @BeforeEach
     void setUp() {
-        Listik listik = new LinkedListik();
+        CustomList customList = new LinkedCustomList();
         for (int i = 0; i < dataLength; i++) {
-            listik.add(i);
+            customList.add(i);
         }
-        iterator = listik.iterator();
+        iterator = customList.iterator();
     }
 
     @Test
@@ -50,7 +50,7 @@ class LinkedListikIteratorTest {
             iterator.next();
         }
 
-        Object expectedNothing = Listik.NOTHING;
+        Object expectedNothing = CustomList.NOTHING;
         Object actualNothing = iterator.next();
 
         assertAll(() -> assertEquals(expected, actual),
@@ -59,7 +59,7 @@ class LinkedListikIteratorTest {
 
     @Test
     void hasPrevFirstElement() {
-        assertFalse(iterator.hasPrev());
+        assertFalse(iterator.hasPrevious());
     }
 
     @Test
@@ -67,25 +67,25 @@ class LinkedListikIteratorTest {
         for (int i = 0; i < 3; i++) {
             iterator.next();
         }
-        assertTrue(iterator.hasPrev());
+        assertTrue(iterator.hasPrevious());
     }
 
     @Test
     void hasPrevLastElement() {
-        assertFalse(iterator.hasPrev());
+        assertFalse(iterator.hasPrevious());
     }
 
     @Test
     void prev() {
-        Object expectedNothing = Listik.NOTHING;
-        Object actualNothing = iterator.prev();
+        Object expectedNothing = CustomList.NOTHING;
+        Object actualNothing = iterator.previous();
 
         for (int i = 0; i < 2; i++) {
             iterator.next();
         }
 
         int expected = 0;
-        int actual = (int) iterator.prev();
+        int actual = (int) iterator.previous();
 
         assertAll(() -> assertEquals(expected, actual),
                 () -> assertEquals(expectedNothing, actualNothing));

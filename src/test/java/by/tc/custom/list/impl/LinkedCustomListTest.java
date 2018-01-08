@@ -1,19 +1,20 @@
-package by.tc.listik.impl;
+package by.tc.custom.list.impl;
 
-import by.tc.listik.Listik;
+import by.tc.custom.list.CustomList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ArrayListikTest {
-    Listik list1;
-    Listik list2;
+class LinkedCustomListTest {
+    CustomList list1;
+    CustomList list2;
 
     @BeforeEach
     void setUp() {
-        list1 = new ArrayListik();
-        list2 = new ArrayListik();
+        list1 = new LinkedCustomList();
+        list2 = new LinkedCustomList();
+
         for (int i = 0; i < 15; i++) {
             list1.add(i);
             list2.add(i);
@@ -39,7 +40,7 @@ class ArrayListikTest {
     @Test
     void delWithoutParams() {
         int expected = 14;
-        int actual = (int) list1.del();
+        int actual = (int) list1.delete();
 
         assertEquals(expected, actual);
     }
@@ -53,27 +54,14 @@ class ArrayListikTest {
     }
 
     @Test
-    void length() {
-        int expected = 15;
-        int actual = list1.length();
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void equals() {
-        assertEquals(list1, list2);
-    }
-
-    @Test
     void getWithParams() {
         int expected = 8;
         int actual = (int) list2.get(8);
 
-        Object expectedWithBigIndex = Listik.NOTHING;
+        Object expectedWithBigIndex = CustomList.NOTHING;
         Object actualWithBigIndex = list2.get(100);
 
-        Object expectedWithSmallIndex = Listik.NOTHING;
+        Object expectedWithSmallIndex = CustomList.NOTHING;
         Object actualWithSmallIndex = list2.get(-10);
 
         assertAll(() -> assertEquals(expected, actual),
@@ -86,10 +74,10 @@ class ArrayListikTest {
         int expected = 10;
         int actual = (int) list2.add(10, 5);
 
-        Object expectedWithBigIndex = Listik.NOTHING;
+        Object expectedWithBigIndex = CustomList.NOTHING;
         Object actualWithBigIndex = list2.add(12, 100);
 
-        Object expectedWithSmallIndex = Listik.NOTHING;
+        Object expectedWithSmallIndex = CustomList.NOTHING;
         Object actualWithSmallIndex = list2.add(22, -10);
 
         assertAll(() -> assertEquals(expected, actual),
@@ -101,13 +89,13 @@ class ArrayListikTest {
     @Test
     void delWithParams() {
         int expected = 5;
-        int actual = (int) list1.del(5);
+        int actual = (int) list1.delete(5);
 
-        Object expectedWithBigIndex = Listik.NOTHING;
-        Object actualWithBigIndex = list1.del(100);
+        Object expectedWithBigIndex = CustomList.NOTHING;
+        Object actualWithBigIndex = list1.delete(100);
 
-        Object expectedWithSmallIndex = Listik.NOTHING;
-        Object actualWithSmallIndex = list1.del(-10);
+        Object expectedWithSmallIndex = CustomList.NOTHING;
+        Object actualWithSmallIndex = list1.delete(-10);
 
         assertAll(() -> assertEquals(expected, actual),
                 () -> assertEquals(expectedWithBigIndex, actualWithBigIndex),
@@ -119,4 +107,17 @@ class ArrayListikTest {
         assertFalse(list2.isEmpty());
     }
 
+
+    @Test
+    void length() {
+        int expected = 15;
+        int actual = list1.length();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void equals() {
+        assertEquals(list1, list2);
+    }
 }

@@ -1,6 +1,6 @@
 package by.tc.tree;
 
-import by.tc.listik.Listik;
+import by.tc.custom.list.CustomList;
 
 /**
  * An interface for Tree hierarchy
@@ -17,7 +17,7 @@ public interface Tree {
      * @param val an element for deleting
      * @return a deleted element
      */
-    Object del(Comparable val);
+    Object delete(Comparable val);
 
     /**
      * Get element count
@@ -26,7 +26,7 @@ public interface Tree {
     int length();
 
     //bypass algorithms
-    Listik bypassPreOrder();
-    Listik bypassInOrder();
-    Listik bypassPostOrder();
+    CustomList bypassPreOrder();
+    CustomList bypassInOrder();
+    CustomList bypassPostOrder();
 }

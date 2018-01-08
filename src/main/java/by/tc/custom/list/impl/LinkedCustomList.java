@@ -1,13 +1,13 @@
-package by.tc.listik.impl;
+package by.tc.custom.list.impl;
 
-import by.tc.listik.Listik;
-import by.tc.listik.ListikIterator;
+import by.tc.custom.list.CustomList;
+import by.tc.custom.list.CustomListIterator;
 import org.apache.log4j.Logger;
 
 /**
- * This is a list implementation of Listik class
+ * This is a list implementation of CustomList class
  */
-public class LinkedListik extends AbstractListik {
+public class LinkedCustomList extends AbstractCustomList {
     private static final long serialVersionUID = -3155702771677544806L;
     private static final Logger logger = Logger.getLogger("log4j");
 
@@ -16,20 +16,20 @@ public class LinkedListik extends AbstractListik {
     private int length;
 
     private static class Element {
-        private Object val;
+        private Object value;
         private Element next;
-        private Element prev;
+        private Element previous;
 
-        public Element(Object val, Element next, Element prev) {
-            this.val = val;
+        public Element(Object value, Element next, Element previous) {
+            this.value = value;
             this.next = next;
-            this.prev = prev;
+            this.previous = previous;
         }
     }
 
-    public LinkedListik(Object... values) {
-        for(Object val : values) {
-            add(val);
+    public LinkedCustomList(Object... values) {
+        for(Object value : values) {
+            add(value);
         }
     }
 
@@ -43,21 +43,21 @@ public class LinkedListik extends AbstractListik {
 
         logger.info("Returning value");
         if (index == 0) {
-            return head.val;
+            return head.value;
         } else if (index == length - 1) {
-            return tail.val;
+            return tail.value;
         } else {
             Element currentElement = head;
             for (int i = 0; i < index; i++) {
                 currentElement = currentElement.next;
             }
-            return currentElement.val;
+            return currentElement.value;
         }
     }
 
     @Override
-    public Object add(Object val, int index) {
-        logger.info("Trying to add " + val + " on position " + index);
+    public Object add(Object value, int index) {
+        logger.info("Trying to add " + value + " on position " + index);
         if (index < 0 || index > length) {
             logger.warn("An incorrect index value");
             return NOTHING;
@@ -66,33 +66,33 @@ public class LinkedListik extends AbstractListik {
         logger.info("Adding a value");
         if (index == 0) {
             if (length == 0) {
-                head = tail = new Element(val, null, null);
+                head = tail = new Element(value, null, null);
                 length++;
-                return head.val;
+                return head.value;
             }
-            head.prev = new Element(val, head, null);
-            head = head.prev;
+            head.previous = new Element(value, head, null);
+            head = head.previous;
             length++;
-            return head.val;
+            return head.value;
         } else if (index == length) {
-            tail.next = new Element(val, null, tail);
+            tail.next = new Element(value, null, tail);
             tail = tail.next;
             length++;
-            return tail.val;
+            return tail.value;
         } else {
             Element currentElement = head;
             for (int i = 0; i < index; i++) {
                 currentElement = currentElement.next;
             }
-            currentElement.prev.next = new Element(val, currentElement, currentElement.prev);
-            currentElement.prev = currentElement.prev.next;
+            currentElement.previous.next = new Element(value, currentElement, currentElement.previous);
+            currentElement.previous = currentElement.previous.next;
             length++;
-            return currentElement.prev.val;
+            return currentElement.previous.value;
         }
     }
 
     @Override
-    public Object del(int index) {
+    public Object delete(int index) {
         logger.info("Trying to delete a value on position " + index);
         if (index < 0 || index > length) {
             logger.warn("An incorrect index value");
@@ -101,31 +101,31 @@ public class LinkedListik extends AbstractListik {
 
         logger.info("Deleting a value");
         if (index == 0) {
-            Object rem = head.val;
+            Object removedObject = head.value;
             head = head.next;
-            head.prev = null;
+            head.previous = null;
             length--;
-            return rem;
+            return removedObject;
         } else if (index == length) {
-            Object rem = tail.val;
-            tail = tail.prev;
+            Object removedObject = tail.value;
+            tail = tail.previous;
             tail.next = null;
             length--;
-            return rem;
+            return removedObject;
         } else {
             Element currentElement = head;
             for (int i = 0; i < index; i++) {
                 currentElement = currentElement.next;
             }
-            currentElement.prev.next = currentElement.next;
+            currentElement.previous.next = currentElement.next;
             length--;
-            return currentElement.val;
+            return currentElement.value;
         }
     }
 
     @Override
-    public Object set(int index, Object val) {
-        logger.info("Trying to assign " + val + " on position " + index);
+    public Object set(int index, Object value) {
+        logger.info("Trying to assign " + value + " on position " + index);
         if (index < 0 || index >= length) {
             logger.warn("An incorrect index value");
             return NOTHING;
@@ -133,27 +133,27 @@ public class LinkedListik extends AbstractListik {
 
         logger.info("Assigning the new value");
         if (index == 0) {
-            Object rem = head.val;
-            head.val = val;
-            return rem;
+            Object removedObject = head.value;
+            head.value = value;
+            return removedObject;
         } else if (index == length - 1) {
-            Object rem = tail.val;
-            tail.val = val;
-            return rem;
+            Object removedObject = tail.value;
+            tail.value = value;
+            return removedObject;
         } else {
             Element currentElement = head;
             for (int i = 0; i < index; i++) {
                 currentElement = currentElement.next;
             }
-            Object rem = currentElement.val;
-            currentElement.val = val;
-            return rem;
+            Object removedObject = currentElement.value;
+            currentElement.value = value;
+            return removedObject;
         }
     }
 
     @Override
-    public ListikIterator iterator() {
-        return new LinkedListikIterator(head);
+    public CustomListIterator iterator() {
+        return new LinkedCustomListIterator(head);
     }
 
     @Override
@@ -162,10 +162,10 @@ public class LinkedListik extends AbstractListik {
     }
 
     @Override
-    public boolean equals(Listik ls) {
-        if (ls == null || length != ls.length()) { return false; }
-        ListikIterator iterator1 = iterator();
-        ListikIterator iterator2 = ls.iterator();
+    public boolean equals(CustomList list) {
+        if (list == null || length != list.length()) { return false; }
+        CustomListIterator iterator1 = iterator();
+        CustomListIterator iterator2 = list.iterator();
         while (iterator1.hasNext()) {
             if (iterator1.next() != iterator2.next()) { return false; }
         }
@@ -176,16 +176,15 @@ public class LinkedListik extends AbstractListik {
     public boolean equals(Object obj) {
         if (this == obj) { return true; }
         if (obj == null || getClass() != obj.getClass()) { return false; }
-        return equals((Listik) obj);
+        return equals((CustomList) obj);
     }
 
 
-    private class LinkedListikIterator implements ListikIterator {
-        private Element head;
+    private class LinkedCustomListIterator implements CustomListIterator {
         private Element current;
 
-        public LinkedListikIterator(Element head) {
-            this.current = this.head = new Element(NOTHING, head, null);
+        public LinkedCustomListIterator(Element head) {
+            this.current = new Element(NOTHING, head, null);
         }
 
         @Override
@@ -198,28 +197,28 @@ public class LinkedListik extends AbstractListik {
             logger.info("Trying to get the next element");
             if (!hasNext()) {
                 logger.warn("There're no more elements");
-                return Listik.NOTHING;
+                return CustomList.NOTHING;
             }
             current = current.next;
             logger.info("Returning the next element");
-            return current.val;
+            return current.value;
         }
 
         @Override
-        public boolean hasPrev() {
-            return current.prev != null;
+        public boolean hasPrevious() {
+            return current.previous != null;
         }
 
         @Override
-        public Object prev() {
+        public Object previous() {
             logger.info("Trying to get the previous element");
-            if (!hasPrev()) {
+            if (!hasPrevious()) {
                 logger.warn("There're no previous elements");
-                return Listik.NOTHING;
+                return CustomList.NOTHING;
             }
-            current = current.prev;
+            current = current.previous;
             logger.info("Returning the previous elements");
-            return current.val;
+            return current.value;
         }
     }
 }

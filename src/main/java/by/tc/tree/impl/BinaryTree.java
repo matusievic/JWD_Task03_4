@@ -1,8 +1,8 @@
 package by.tc.tree.impl;
 
-import by.tc.listik.Listik;
-import by.tc.listik.ListikIterator;
-import by.tc.listik.impl.ArrayListik;
+import by.tc.custom.list.CustomList;
+import by.tc.custom.list.CustomListIterator;
+import by.tc.custom.list.impl.ArrayCustomList;
 import by.tc.tree.Tree;
 import org.apache.log4j.Logger;
 
@@ -22,94 +22,94 @@ public class BinaryTree implements Tree, Serializable {
     }
 
     public BinaryTree(Comparable... values) {
-        for (Comparable val : values) {
-            add(val);
+        for (Comparable value : values) {
+            add(value);
         }
     }
 
     @Override
-    public void add(Comparable val) {
+    public void add(Comparable value) {
         logger.info("Trying to add a new node");
-        if (val == null) {
+        if (value == null) {
             logger.warn("Cannot to add a null node");
             return;
         }
         if (root == null) {
-            root = new Node(val, null);
+            root = new Node(value, null);
             length++;
             logger.info("A root node was added");
             return;
         }
-        add(root, val);
+        add(root, value);
         length++;
         logger.info("A node was added");
     }
 
     @Override
-    public Object del(Comparable val) {
+    public Object delete(Comparable value) {
         logger.info("Trying to delete an element");
-        ListikIterator iterator = this.getNodes().iterator();
+        CustomListIterator iterator = this.getNodes().iterator();
         while (iterator.hasNext()) {
-            Node cur = (Node) iterator.next();
-            if (cur.val.equals(val)) {
+            Node current = (Node) iterator.next();
+            if (current.value.equals(value)) {
                 logger.info("An appropriate node was found");
-                if (cur.parent == null) {
-                    if (cur.left == null && cur.right == null) {
+                if (current.parent == null) {
+                    if (current.left == null && current.right == null) {
                         root = null;
-                    } else if (cur.left != null && cur.right != null) {
-                        this.root = cur.left;
-                        Node placeForRight = findPlace(cur.right.val);
-                        insertNode(placeForRight, cur.right);
-                    } else if (cur.left != null) {
-                        this.root = cur.left;
+                    } else if (current.left != null && current.right != null) {
+                        this.root = current.left;
+                        Node placeForRight = findPlace(current.right.value);
+                        insertNode(placeForRight, current.right);
+                    } else if (current.left != null) {
+                        this.root = current.left;
                     } else {
-                        this.root = cur.right;
+                        this.root = current.right;
                     }
                     logger.info("A root node was deleted");
                 } else {
-                    Node parent = cur.parent;
-                    if (parent.left == cur) {
+                    Node parent = current.parent;
+                    if (parent.left == current) {
                         parent.left = null;
                     }
-                    if (parent.right == cur) {
+                    if (parent.right == current) {
                         parent.right = null;
                     }
 
-                    if (cur.left != null) {
-                        Node placeForLeft = findPlace(cur.left.val);
-                        insertNode(placeForLeft, cur.left);
+                    if (current.left != null) {
+                        Node placeForLeft = findPlace(current.left.value);
+                        insertNode(placeForLeft, current.left);
                     }
-                    if (cur.right != null) {
-                        Node placeForRight = findPlace(cur.right.val);
-                        insertNode(placeForRight, cur.right);
+                    if (current.right != null) {
+                        Node placeForRight = findPlace(current.right.value);
+                        insertNode(placeForRight, current.right);
                     }
                     logger.info("A non-root node was deleted");
                 }
-                return cur;
+                return current;
             }
             logger.warn("There's no such node at the tree");
         }
         return null;
     }
 
-    private Listik getNodes() {
-        Listik result = new ArrayListik();
+    private CustomList getNodes() {
+        CustomList result = new ArrayCustomList();
         root.bypassNodes(result);
         return result;
     }
 
-    private Node findPlace(Comparable val) {
-        if (val == null) {
+    private Node findPlace(Comparable value) {
+        if (value == null) {
             logger.info("Cannot to find a place for null node");
             return null;
         }
-        Node cur = root, parent = null;
-        while (cur != null) {
-            parent = cur;
-            if (cur.val.compareTo(val) > 0) {
-                cur = cur.left;
-            } else if (cur.val.compareTo(val) < 0) {
-                cur = cur.right;
+        Node current = root, parent = null;
+        while (current != null) {
+            parent = current;
+            if (current.value.compareTo(value) > 0) {
+                current = current.left;
+            } else if (current.value.compareTo(value) < 0) {
+                current = current.right;
             } else {
                 return null;
             }
@@ -123,90 +123,104 @@ public class BinaryTree implements Tree, Serializable {
         return length;
     }
 
-    private void add(Node node, Comparable val) {
-        if (node.val.compareTo(val) > 0) {
+    private void add(Node node, Comparable value) {
+        if (node.value.compareTo(value) > 0) {
             if (node.left == null) {
-                node.left = new Node(val, node);
+                node.left = new Node(value, node);
                 logger.info("The node was added");
             } else {
-                add(node.left, val);
+                add(node.left, value);
             }
-        } else if (node.val.compareTo(val) < 0) {
+        } else if (node.value.compareTo(value) < 0) {
             if (node.right == null) {
-                node.right = new Node(val, node);
+                node.right = new Node(value, node);
                 logger.info("The node was added");
             } else {
-                add(node.right, val);
+                add(node.right, value);
             }
         }
     }
 
     private void insertNode(Node parent, Node child) {
-        if (parent.val.compareTo(child.val) > 0) {
+        if (parent.value.compareTo(child.value) > 0) {
             parent.left = child;
-        } else if (parent.val.compareTo(child.val) < 0) {
+        } else if (parent.value.compareTo(child.value) < 0) {
             parent.right = child;
         }
     }
 
     private class Node {
-        private Comparable val;
+        private Comparable value;
         private Node parent;
         private Node left;
         private Node right;
 
-        private Node(Comparable val, Node parent) {
-            this.val = val;
+        private Node(Comparable value, Node parent) {
+            this.value = value;
             this.parent = parent;
-            this.left = left;
-            this.right = right;
         }
 
 
-        private void bypassPreOrder(Listik result) {
-            result.add(val);
-            if (left != null) left.bypassPreOrder(result);
-            if (right != null) right.bypassPreOrder(result);
+        private void bypassPreOrder(CustomList result) {
+            result.add(value);
+            if (left != null) {
+                left.bypassPreOrder(result);
+            }
+            if (right != null) {
+                right.bypassPreOrder(result);
+            }
         }
 
-        private void bypassInOrder(Listik result) {
-            if (left != null) left.bypassInOrder(result);
-            result.add(val);
-            if (right != null) right.bypassInOrder(result);
+        private void bypassInOrder(CustomList result) {
+            if (left != null) {
+                left.bypassInOrder(result);
+            }
+            result.add(value);
+            if (right != null) {
+                right.bypassInOrder(result);
+            }
         }
 
-        private void bypassPostOrder(Listik result) {
-            if (left != null) left.bypassPostOrder(result);
-            if (right != null) right.bypassPostOrder(result);
-            result.add(val);
+        private void bypassPostOrder(CustomList result) {
+            if (left != null) {
+                left.bypassPostOrder(result);
+            }
+            if (right != null) {
+                right.bypassPostOrder(result);
+            }
+            result.add(value);
         }
 
-        private void bypassNodes(Listik result) {
+        private void bypassNodes(CustomList result) {
             result.add(this);
-            if (left != null) left.bypassNodes(result);
-            if (right != null) right.bypassNodes(result);
+            if (left != null) {
+                left.bypassNodes(result);
+            }
+            if (right != null) {
+                right.bypassNodes(result);
+            }
         }
     }
 
 
-    public Listik bypassPreOrder() {
-        Listik result = new ArrayListik();
+    public CustomList bypassPreOrder() {
+        CustomList result = new ArrayCustomList();
         if (root != null) {
             root.bypassPreOrder(result);
         }
         return result;
     }
 
-    public Listik bypassInOrder() {
-        Listik result = new ArrayListik();
+    public CustomList bypassInOrder() {
+        CustomList result = new ArrayCustomList();
         if (root != null) {
             root.bypassInOrder(result);
         }
         return result;
     }
 
-    public Listik bypassPostOrder() {
-        Listik result = new ArrayListik();
+    public CustomList bypassPostOrder() {
+        CustomList result = new ArrayCustomList();
         if (root != null) {
             root.bypassPostOrder(result);
         }
@@ -222,8 +236,8 @@ public class BinaryTree implements Tree, Serializable {
             return false;
         }
 
-        Listik items = this.bypassInOrder();
-        Listik otherItems = ((Tree) o).bypassInOrder();
+        CustomList items = this.bypassInOrder();
+        CustomList otherItems = ((Tree) o).bypassInOrder();
 
         return items.equals(otherItems);
     }

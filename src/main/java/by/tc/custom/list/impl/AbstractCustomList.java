@@ -1,13 +1,13 @@
-package by.tc.listik.impl;
+package by.tc.custom.list.impl;
 
-import by.tc.listik.Listik;
+import by.tc.custom.list.CustomList;
 
 import java.io.Serializable;
 
 /**
  * This class contains common methods implementations
  */
-public abstract class AbstractListik implements Listik, Serializable {
+public abstract class AbstractCustomList implements CustomList, Serializable {
     private static final long serialVersionUID = 6879748199965422194L;
 
     @Override
@@ -16,13 +16,13 @@ public abstract class AbstractListik implements Listik, Serializable {
     }
 
     @Override
-    public Object add(Object obj) {
-        return add(obj, length());
+    public Object add(Object value) {
+        return add(value, length());
     }
 
     @Override
-    public Object del() {
-        return del(length() - 1);
+    public Object delete() {
+        return delete(length() - 1);
     }
 
     @Override
