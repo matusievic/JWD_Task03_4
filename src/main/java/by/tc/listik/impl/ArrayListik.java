@@ -2,15 +2,22 @@ package by.tc.listik.impl;
 
 import by.tc.listik.Listik;
 import by.tc.listik.ListikIterator;
+import org.apache.log4j.Logger;
 
 /**
  * This is an array implementation of Listik class
  */
 public class ArrayListik extends AbstractListik {
     private static final long serialVersionUID = -33460992926824480L;
+    private static final Logger logger = Logger.getLogger(ArrayListik.class);
+
     private int capacity = 10;
     private Object[] data = new Object[capacity];
     private int length;
+
+    public ArrayListik() {
+
+    }
 
     public ArrayListik(Object... values) {
         if (values.length > capacity) {
@@ -24,12 +31,15 @@ public class ArrayListik extends AbstractListik {
 
     private boolean isEnoughSpace() {
         if (length < data.length) {
+            logger.info("Enough space");
             return true;
         }
+        logger.info("Not enough space");
         return false;
     }
 
     private void addSpace() {
+        logger.info("Adding space");
         Object[] old = data;
         data = new Object[length + capacity];
         System.arraycopy(old, 0, data, 0, length);
@@ -37,12 +47,18 @@ public class ArrayListik extends AbstractListik {
 
     @Override
     public Object get(int index) {
-        if (index < 0 || index >= length) { return NOTHING; }
+        logger.info("Trying to get element");
+        if (index < 0 || index >= length) {
+            logger.warn("Incorrect index");
+            return NOTHING;
+        }
+        logger.info("Returning element: " + data[index]);
         return data[index];
     }
 
     @Override
     public Object add(Object val, int index) {
+        logger.info("Trying to add element: " + val);
         if (!isEnoughSpace()) {
             addSpace();
         }
@@ -51,26 +67,40 @@ public class ArrayListik extends AbstractListik {
         } else if (index < length && index >= 0) {
             System.arraycopy(data, index, data, index + 1, length - index);
             data[index] = val;
-        } else { return NOTHING; }
+        } else {
+            logger.warn("Incorrect index");
+            return NOTHING;
+        }
         length++;
+        logger.info("Element added: " + data[index]);
         return data[index];
     }
 
     @Override
     public Object del(int index) {
-        if (index < 0 || index >= length) { return NOTHING; }
+        logger.info("Trying to delete element on position: " + index);
+        if (index < 0 || index >= length) {
+            logger.warn("Incorrect index value");
+            return NOTHING;
+        }
         Object rem = data[index];
         int elementToCopy = length - index - 1;
         System.arraycopy(data, index + 1, data, index, elementToCopy);
         length--;
+        logger.info("Element was removed: " + rem);
         return rem;
     }
 
     @Override
     public Object set(int index, Object val) {
-        if (index < 0 || index >= length) { return NOTHING; }
+        logger.info("Trying to assign " + val + " to element on position " + index);
+        if (index < 0 || index >= length) {
+            logger.warn("Incorrect index value");
+            return NOTHING;
+        }
         Object rem = data[index];
         data[index] = val;
+        logger.info("Reassigned: " + rem + " -> " + val);
         return rem;
     }
 
@@ -81,6 +111,7 @@ public class ArrayListik extends AbstractListik {
 
     @Override
     public int length() {
+        logger.info("Returning length");
         return length;
     }
 
@@ -115,7 +146,12 @@ public class ArrayListik extends AbstractListik {
 
         @Override
         public Object next() {
-            if (!hasNext()) { return Listik.NOTHING; }
+            logger.info("Trying to get the next element");
+            if (!hasNext()) {
+                logger.warn("There're no more elements");
+                return Listik.NOTHING;
+            }
+            logger.info("Returning the next element");
             return list.data[currentElement++];
         }
 
@@ -126,7 +162,10 @@ public class ArrayListik extends AbstractListik {
 
         @Override
         public Object prev() {
-            if (!hasPrev()) { return Listik.NOTHING; }
+            if (!hasPrev()) {
+                logger.warn("There're no previous elements");
+                return Listik.NOTHING;
+            }
             return list.data[--currentElement];
         }
     }

@@ -2,12 +2,14 @@ package by.tc.listik.impl;
 
 import by.tc.listik.Listik;
 import by.tc.listik.ListikIterator;
+import org.apache.log4j.Logger;
 
 /**
  * This is a list implementation of Listik class
  */
 public class LinkedListik extends AbstractListik {
     private static final long serialVersionUID = -3155702771677544806L;
+    private static final Logger logger = Logger.getLogger("log4j");
 
     private Element head;
     private Element tail;
@@ -33,8 +35,13 @@ public class LinkedListik extends AbstractListik {
 
     @Override
     public Object get(int index) {
-        if (index < 0 || index >= length) { return NOTHING; }
+        logger.info("Trying to get an element on position: " + index);
+        if (index < 0 || index >= length) {
+            logger.warn("Incorrect index value");
+            return NOTHING;
+        }
 
+        logger.info("Returning value");
         if (index == 0) {
             return head.val;
         } else if (index == length - 1) {
@@ -50,8 +57,13 @@ public class LinkedListik extends AbstractListik {
 
     @Override
     public Object add(Object val, int index) {
-        if (index < 0 || index > length) { return NOTHING; }
+        logger.info("Trying to add " + val + " on position " + index);
+        if (index < 0 || index > length) {
+            logger.warn("An incorrect index value");
+            return NOTHING;
+        }
 
+        logger.info("Adding a value");
         if (index == 0) {
             if (length == 0) {
                 head = tail = new Element(val, null, null);
@@ -81,8 +93,13 @@ public class LinkedListik extends AbstractListik {
 
     @Override
     public Object del(int index) {
-        if (index < 0 || index > length) { return NOTHING; }
+        logger.info("Trying to delete a value on position " + index);
+        if (index < 0 || index > length) {
+            logger.warn("An incorrect index value");
+            return NOTHING;
+        }
 
+        logger.info("Deleting a value");
         if (index == 0) {
             Object rem = head.val;
             head = head.next;
@@ -108,8 +125,13 @@ public class LinkedListik extends AbstractListik {
 
     @Override
     public Object set(int index, Object val) {
-        if (index < 0 || index >= length) { return NOTHING; }
+        logger.info("Trying to assign " + val + " on position " + index);
+        if (index < 0 || index >= length) {
+            logger.warn("An incorrect index value");
+            return NOTHING;
+        }
 
+        logger.info("Assigning the new value");
         if (index == 0) {
             Object rem = head.val;
             head.val = val;
@@ -173,8 +195,13 @@ public class LinkedListik extends AbstractListik {
 
         @Override
         public Object next() {
-            if (!hasNext()) { return Listik.NOTHING; }
+            logger.info("Trying to get the next element");
+            if (!hasNext()) {
+                logger.warn("There're no more elements");
+                return Listik.NOTHING;
+            }
             current = current.next;
+            logger.info("Returning the next element");
             return current.val;
         }
 
@@ -185,8 +212,13 @@ public class LinkedListik extends AbstractListik {
 
         @Override
         public Object prev() {
-            if (!hasPrev()) { return Listik.NOTHING; }
+            logger.info("Trying to get the previous element");
+            if (!hasPrev()) {
+                logger.warn("There're no previous elements");
+                return Listik.NOTHING;
+            }
             current = current.prev;
+            logger.info("Returning the previous elements");
             return current.val;
         }
     }

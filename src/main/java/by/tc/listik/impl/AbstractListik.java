@@ -5,7 +5,7 @@ import by.tc.listik.Listik;
 import java.io.Serializable;
 
 /**
- * This class contains common method implementations
+ * This class contains common methods implementations
  */
 public abstract class AbstractListik implements Listik, Serializable {
     private static final long serialVersionUID = 6879748199965422194L;

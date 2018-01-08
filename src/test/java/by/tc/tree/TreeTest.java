@@ -7,35 +7,81 @@ import by.tc.tree.impl.BinaryTree;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TreeTest {
     Tree tree;
 
     @BeforeEach
     void setUp() {
-        tree = new BinaryTree(5, 1, 2, 4, 7, 3, 0, 8, 6, 9);
+        tree = new BinaryTree(7, 3, 1, 0, 2, 5, 4, 6, 14, 12, 8, 13, 20, 19, 27);
     }
 
     @Test
-    void bypassPreOrder() {
-        Listik expected = new ArrayListik(5, 1, 0, 2, 4, 3, 7, 6, 8, 9);
+    void bypassPreOrderTest() {
+        Listik expected = new ArrayListik(7, 3, 1, 0, 2, 5, 4, 6, 14, 12, 8, 13, 20, 19, 27);
         Listik actual = tree.bypassPreOrder();
         assertEquals(expected, actual);
     }
 
     @Test
-    void bypassInOrder() {
-        Listik expected = new ArrayListik(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+    void bypassInOrderTest() {
+        Listik expected = new ArrayListik(0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 13, 14, 19, 20, 27);
         Listik actual = tree.bypassInOrder();
         assertEquals(expected, actual);
     }
 
     @Test
-    void bypassPostOrder() {
-        Listik expected = new ArrayListik(0, 3, 4, 2, 1, 6, 9, 8, 7, 5);
+    void bypassPostOrderTest() {
+        Listik expected = new ArrayListik(0, 2, 1, 4, 6, 5, 3, 8, 13, 12, 19, 27, 20, 14, 7);
         Listik actual = tree.bypassPostOrder();
         assertEquals(expected, actual);
     }
 
+    @Test
+    void deleteNonRootNodeTest() {
+        Tree expected = new BinaryTree(7, 3, 1, 0, 2, 5, 4, 6, 14, 12, 8, 13, 19, 27);
+        tree.del(20);
+        Tree actual = tree;
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void deleteRootNodeWithChildrenTest() {
+        Tree expected = new BinaryTree(3, 1, 0, 2, 5, 4, 6, 14, 12, 8, 13, 20, 19, 27);
+        tree.del(7);
+        Tree actual = tree;
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void deleteRootNodeWithoutChildrenTest() {
+        Tree expected = new BinaryTree();
+        Tree actual = new BinaryTree(5);
+        actual.del(5);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void deleteRootWithoutChildTest() {
+        Tree expectedWithoutLeftChild = new BinaryTree(7);
+        Tree actualWithoutLeftChild = new BinaryTree(5, 7);
+        actualWithoutLeftChild.del(5);
+
+        Tree expectedWithoutRightChild = new BinaryTree(4);
+        Tree actualWithoutRightChild = new BinaryTree(5, 4);
+        actualWithoutRightChild.del(5);
+
+        assertAll(() -> assertEquals(expectedWithoutLeftChild, actualWithoutLeftChild),
+                  () -> assertEquals(expectedWithoutRightChild, actualWithoutRightChild));
+    }
+
+    @Test
+    void deleteLeafTest() {
+        Tree expected = new BinaryTree(7, 3, 1, 0, 2, 5, 4, 6, 14, 12, 8, 13, 20, 19);
+        tree.del(27);
+        Tree actual = tree;
+        assertEquals(expected, actual);
+    }
 }
